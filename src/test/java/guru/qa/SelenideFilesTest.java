@@ -1,7 +1,6 @@
 package guru.qa;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
+
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -9,7 +8,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
@@ -40,8 +38,8 @@ public class SelenideFilesTest {
     @Test
     void selenideUploadFile() {
         open("https://fineuploader.com/demos.html");
-        $("input[type='file']").uploadFromClasspath("cat.jpg");
-        $("div.qq-file-info").shouldHave(text("cat.jpg"));
+        $("input[type='file']").uploadFromClasspath("example/cat.jpg");
+        $("div.qq-file-info").shouldHave(text("example/cat.jpg"));
 
         // Если нет элемента input[type='file'],
         // то в гугле написать how to change visible attribute in element Selenium
