@@ -9,7 +9,6 @@ import guru.qa.model.Glossary;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -23,7 +22,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FilesParsingTest {
 
     /**
-     * для чтения чего-то из ресурсов (папка resources) используем ClassLoader
+     * ClassLoader - это механизм, с помощью которого можно читать что-то из ресурсов (папка resources)
+     * и загружать классы из папки src/main/java и src/test/java
      */
     ClassLoader cl = FilesParsingTest.class.getClassLoader();
 
