@@ -7,6 +7,7 @@ public class Glossary {
     @SerializedName("GlossDiv")
     public Glossdiv glossdiv;
 
+    /** обязательно static класс*/
     public static class Glossdiv {
         public String title;
         public boolean flag;
