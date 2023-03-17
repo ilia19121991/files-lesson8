@@ -1,9 +1,8 @@
-package guru.qa;
+package guru.qa.homework;
 
 import com.codeborne.pdftest.PDF;
 import com.codeborne.xlstest.XLS;
 import com.opencsv.CSVReader;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -13,8 +12,8 @@ import java.util.zip.ZipInputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HomeworkTest {
-    ClassLoader cl = HomeworkTest.class.getClassLoader();
+public class HomeworkZipTest {
+    ClassLoader cl = HomeworkZipTest.class.getClassLoader();
 
     /*@Test
     void zipParseHomeworkTest() throws Exception {
