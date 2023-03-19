@@ -3,96 +3,45 @@ package guru.qa.homework;
 import com.codeborne.pdftest.PDF;
 import com.codeborne.xlstest.XLS;
 import com.opencsv.CSVReader;
-import org.junit.jupiter.api.BeforeAll;
+import guru.qa.FilesParsingTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 
-import java.io.*;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+
 public class HomeworkZipTest {
-    ClassLoader cl = HomeworkZipTest.class.getClassLoader();
-
-    @BeforeAll
-    @Test
-    void zipParseHomeworkTest() throws Exception {
-
-        String zipFilePath = "C:/Users/ilia1/IdeaProjects/files-lesson8/src/test/resources/homework/homework-lesson8.zip";
-
-        String destDir = "C:/Users/ilia1/IdeaProjects/files-lesson8/src/test/resources/unpacked-zip";
-
-        unzip(zipFilePath, destDir);
-
-    }
-
-    private static void unzip(String zipFilePath, String destDir) {
-        File dir = new File(destDir);
-        // create output directory if it doesn't exist
-        if (!dir.exists()) dir.mkdirs();
-        FileInputStream fis;
-        //buffer for read and write data to file
-        byte[] buffer = new byte[1024];
-        try {
-            fis = new FileInputStream(zipFilePath);
-            ZipInputStream zis = new ZipInputStream(fis);
-            ZipEntry ze = zis.getNextEntry();
-            while (ze != null) {
-                String fileName = ze.getName();
-                File newFile = new File(destDir + File.separator + fileName);
-                System.out.println("Unzipping to " + newFile.getAbsolutePath());
-                //create directories for sub directories in zip
-                new File(newFile.getParent()).mkdirs();
-                FileOutputStream fos = new FileOutputStream(newFile);
-                int len;
-                while ((len = zis.read(buffer)) > 0) {
-                    fos.write(buffer, 0, len);
-                }
-                fos.close();
-                //close this ZipEntry
-                zis.closeEntry();
-                ze = zis.getNextEntry();
-            }
-            //close last ZipEntry
-            zis.closeEntry();
-            zis.close();
-            fis.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
+    ClassLoader cl = FilesParsingTest.class.getClassLoader();
 
     @Test
-    void unzippedXlsParseTest() throws Exception {
-        try (InputStream resourceAsStream = cl.getResourceAsStream("unpacked-zip/file_example_XLS_10.xls")) {
-            XLS content = new XLS(resourceAsStream);
-            assertThat(content.excel.getSheetAt(0).getRow(5).getCell(2).getStringCellValue()).contains("Magwood");
-        }
-    }
-
-    @Test
-    void unzippedPdfParseTest() throws Exception {
-        try (InputStream resourceAsStream = cl.getResourceAsStream("unpacked-zip/sample.pdf")) {
-            PDF content = new PDF(resourceAsStream);
-            assertThat(content.text).contains("This is a small demonstration");
-        }
-    }
-
-    @Test
-    void unzippedCsvParseTest() throws Exception {
+    void zipParseTest() throws Exception {
         try (
-                InputStream resource = cl.getResourceAsStream("unpacked-zip/SampleCSVFile_2kb.csv");
-                CSVReader reader = new CSVReader(new InputStreamReader(resource))
-                ) {
-            List<String[]> content = reader.readAll();
-            assertThat(content.get(1)[2]).contains("Barry French");
+                InputStream resource = cl.getResourceAsStream("homework/homework-lesson8.zip");
+                ZipInputStream zis = new ZipInputStream(resource)
+        ) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                if (entry.getName().contains(".xls")) {
+                    XLS content = new XLS(zis);
+                    assertThat(content.excel.getSheetAt(0).getRow(5).getCell(2).getStringCellValue()).contains("Magwood");
+                }
+                else if (entry.getName().contains(".pdf")) {
+                    PDF content = new PDF(zis);
+                    assertThat(content.text).contains("This is a small demonstration");
+                }
+                else if (entry.getName().contains(".csv")) {
+                    CSVReader reader = new CSVReader(new InputStreamReader(zis));
+
+                    List<String[]> content = reader.readAll();
+                    assertThat(content.get(1)[2]).contains("Barry French");
+                }
+            }
         }
     }
-
 }
+
 
