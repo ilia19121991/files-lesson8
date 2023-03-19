@@ -3,7 +3,9 @@ package guru.qa.homework;
 import com.codeborne.pdftest.PDF;
 import com.codeborne.xlstest.XLS;
 import com.opencsv.CSVReader;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.io.*;
 import java.util.List;
@@ -12,34 +14,13 @@ import java.util.zip.ZipInputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class HomeworkZipTest {
     ClassLoader cl = HomeworkZipTest.class.getClassLoader();
 
-    /*@Test
-    void zipParseHomeworkTest() throws Exception {
-        try (
-                InputStream resource = cl.getResourceAsStream("homework/homework-lesson8.zip");
-                ZipInputStream zis = new ZipInputStream(resource)
-        ) {
-            ZipEntry entry;
-            while ((entry = zis.getNextEntry()) != null) {
-                FileOutputStream fout = new FileOutputStream
-                        ("C:\\Users\\ilia1\\IdeaProjects\\files-lesson8\\src\\test\\resources\\unpacked-zip");
-                for (int c = zis.read(); c != -1; c = zis.read()) {
-                    fout.write(c);
-                }
-                fout.flush();
-                zis.closeEntry();
-                fout.close();
-
-
-                //assertThat(entry.getName()).isEqualTo("homework/homework-lesson8.zip");
-            }
-        }
-    }*/
-
+    @BeforeAll
     @Test
-    void zipParseHomework2Test() throws Exception {
+    void zipParseHomeworkTest() throws Exception {
 
         String zipFilePath = "C:/Users/ilia1/IdeaProjects/files-lesson8/src/test/resources/homework/homework-lesson8.zip";
 
