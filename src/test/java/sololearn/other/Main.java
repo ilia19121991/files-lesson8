@@ -1,4 +1,4 @@
-package sololearn;
+package sololearn.other;
 
 
 //будьте внимательны с модификаторами доступа

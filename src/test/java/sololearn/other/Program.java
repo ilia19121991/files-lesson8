@@ -1,4 +1,4 @@
-package sololearn;
+package sololearn.other;
 
 import java.util.Scanner;
 
