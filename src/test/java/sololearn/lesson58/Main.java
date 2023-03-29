@@ -5,26 +5,25 @@ class Main {
         Name name = new Name();
         name.setPriority(1);
 
+
         Welcome welcome = new Welcome();
-        welcome.setPriority(6);
+        welcome.setPriority(2);
+
 
         name.start();
         welcome.start();
-
-
-
     }
 }
 
 //extend the Thread class
-class Welcome extends Thread {
+class Welcome extends Thread{
     public void run() {
         System.out.println("Welcome!");
     }
 }
 
 //extend the Thread class
-class Name extends Thread {
+class Name extends Thread{
     public void run() {
         System.out.println("Please enter your name");
     }
